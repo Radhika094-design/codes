@@ -15,10 +15,12 @@ public:
             slow = slow->next;
             fast=fast->next->next;
             if(slow==fast){
-                slow = head;//new linkedlist start here assume
-                while(slow!=fast){
+            //    slow = head;//new linkedlist start here assume
+             //   while(slow!=fast){
+                while(slow!=head){
                     slow = slow->next;
-                    fast= fast->next;
+                   // fast= fast->next;
+                   head = head->next;
                 }
                 return slow;
             }
