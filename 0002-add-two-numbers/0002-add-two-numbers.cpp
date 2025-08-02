@@ -1,7 +1,7 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* dummy = new ListNode(0); // dummy head
+        ListNode* dummy = new ListNode(0); // dummy head // when u dont know where your ll start take dummy node 
         ListNode* temp = dummy;            // pointer to form new list
         int carry = 0;
 
@@ -19,12 +19,14 @@ public:
             }
 
             sum += carry;
-            carry = sum / 10;
+           
 
-            temp->next = new ListNode(sum % 10);
+          ListNode* point = new ListNode(sum % 10);
+            carry = sum / 10;
+            temp->next = point;
             temp = temp->next;
         }
 
-        return dummy->next;
+        return dummy->next;//return head
     }
 };
