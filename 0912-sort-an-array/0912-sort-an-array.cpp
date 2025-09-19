@@ -1,59 +1,41 @@
 class Solution {
 public:
-    // Merge two sorted halves of the array
-    void merge(vector<int>& nums, int left, int mid, int right) {
-        vector<int> temp; // Temporary array to hold merged result
-        int i = left;     // Pointer for left half
-        int j = mid + 1;  // Pointer for right half
+void merge(vector<int>&nums , int left ,int mid, int right ){
+    //temperory array bcz divide into 2 peices
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+    //tempory array for left L and right R 
+    vector<int> L(n1),R(n2);
+    for(int i =0;i<n1;i++){
+        L[i]= nums[left + i ];
+    }
+        for(int j = 0;j<n2;j++){
+            R[j] = nums[mid+1+j];
+        }
+        int i = 0 , j = 0 , k = left;
+        while(i<n1 &&j<n2){
+            if(L[i]<=R[j]){
+              nums[k++] = L[i++];
 
-        // Compare and merge both halves
-        while (i <= mid && j <= right) {
-            if (nums[i] <= nums[j]) {
-                temp.push_back(nums[i]);  // Take from left half
-                i++;
-            } else {
-                temp.push_back(nums[j]);  // Take from right half
-                j++;
+            }
+            else{
+                nums[k++]=R[j++];
             }
         }
+        while(i<n1) nums[k++]=L[i++];
+        while(i<n2) nums[k++]=R[j++];
+    
+}
+    void mergesort(vector<int>&nums,int left , int right){
+        if(left>=right)return ;
+        int mid = left +(right-left)/2;
+        mergesort(nums,left,mid); //we divides here in 2 parts 
+        mergesort(nums,mid+1,right);
 
-        // Add remaining elements from left half, if any
-        while (i <= mid) {
-            temp.push_back(nums[i]);
-            i++;
-        }
-
-        // Add remaining elements from right half, if any
-        while (j <= right) {
-            temp.push_back(nums[j]);
-            j++;
-        }
-
-        // Copy merged elements back to the original array
-        for (int k = 0; k < temp.size(); ++k) {
-            nums[left + k] = temp[k];
-        }
+        merge(nums,left,mid,right);// after divide its merge here from left to right 
     }
-
-    // Recursive function to divide the array
-    void mergeSort(vector<int>& nums, int left, int right) {
-        if (left >= right) return;  // Base case: single element
-
-        int mid = left + (right - left) / 2;
-
-        // Recursively sort the left half
-        mergeSort(nums, left, mid);
-
-        // Recursively sort the right half
-        mergeSort(nums, mid + 1, right);
-
-        // Merge the sorted halves
-        merge(nums, left, mid, right);
-    }
-
-    // Main function
     vector<int> sortArray(vector<int>& nums) {
-        mergeSort(nums, 0, nums.size() - 1);  // Call merge sort on the whole array
-        return nums;
+       mergesort(nums,0,nums.size()-1);
+       return nums; 
     }
 };
